@@ -64,44 +64,64 @@ void setup() {
     setupDisplay();
 }
 
-//void processMeasure() {
-//    voltageP = inaP.readBusVoltage();
-//    currentP = abs(inaP.readShuntCurrent() * 1000);
-//
-//    voltageN = inaN.readBusVoltage();
-//    currentN = abs(inaN.readShuntCurrent() * 1000);
-//}
+void processMeasure() {
+    voltageP = inaP.readBusVoltage();
+    currentP = abs(inaP.readShuntCurrent() * 1000);
 
-// Read values in loop
-void loop() {
-//    processMeasure();
-//
-//    Serial.println("+12V Rail:");
-//    Serial.print("  Voltage: ");
-//    Serial.print(voltageP, 2);
-//    Serial.println(" V");
-//    Serial.print("  Current: ");
-//    Serial.print(currentP, 1);
-//    Serial.println(" mA");
-//
-//    Serial.println("-12V Rail:");
-//    Serial.print("  Voltage: ");
-//    Serial.print(voltageN, 2);
-//    Serial.println(" V");
-//    Serial.print("  Current: ");
-//    Serial.print(currentN, 1);
-//    Serial.println(" mA");
-//
-//    Serial.println("");
-//    delay(1000);
+    voltageN = inaN.readBusVoltage();
+    currentN = abs(inaN.readShuntCurrent() * 1000);
 }
 
-void drawLogo(void)
-{
+void processDisplay() {
+    display.clearDisplay();
+
+    display.setTextColor(SSD1306_WHITE);
+
+    display.setTextSize(2);
+    display.setCursor(0, 5);
+    display.print("+12V:");
+
+    display.setTextSize(1);
+    String strVoltageP = String(voltageP, 2) + " V";
+    drawRightString(strVoltageP, 114,  3);
+    String strCurrentP = String(currentP, 1) + "  mA";
+    drawRightString(strCurrentP, 120,  14);
+
+    display.drawLine(0, 29, 127, 29, SSD1306_WHITE);
+
+    display.setTextSize(2);
+    display.setCursor(0, 40);
+    display.print("-12V:");
+
+    display.setTextSize(1);
+    String strVoltageN = String(voltageN, 2) + " V";
+    drawRightString(strVoltageN, 114,  38);
+    String strCurrentN = String(currentN, 1) + "  mA";
+    drawRightString(strCurrentN, 120,  49);
+
+    display.display();
+}
+
+void loop() {
+    processMeasure();
+    processDisplay();
+
+    delay(500);
+}
+
+void drawLogo(void) {
     display.clearDisplay();
 
     display.drawBitmap((display.width() - LOGO_WIDTH) / 2, (display.height() - LOGO_HEIGHT) / 2, logo_bmp, LOGO_WIDTH,
                        LOGO_HEIGHT, 1);
     display.display();
     delay(1000);
+}
+
+void drawRightString(String buf, int x, int y) {
+    int16_t x1, y1;
+    uint16_t w, h;
+    display.getTextBounds(buf, 0, 0, &x1, &y1, &w, &h);
+    display.setCursor(x - w, y);
+    display.print(buf);
 }

@@ -1,0 +1,2 @@
+# T-VCM
+T-VCM is an Arduino powered voltage and current measurement device designed to measure the +12V and -12V rails of modular synth modules. T-VCM is meant to be plugged in between the module that is being measured and the power supply.

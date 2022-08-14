@@ -80,26 +80,26 @@ void processDisplay() {
     display.setTextColor(SSD1306_WHITE);
 
     display.setTextSize(2);
-    display.setCursor(0, 5);
+    display.setCursor(4, 6);
     display.print("+12V:");
 
     display.setTextSize(1);
     String strVoltageP = String(voltageP, 2) + " V";
-    drawRightString(strVoltageP, 114,  3);
+    drawRightString(strVoltageP, 118,  4);
     String strCurrentP = String(currentP, 1) + "  mA";
-    drawRightString(strCurrentP, 120,  14);
+    drawRightString(strCurrentP, 124,  15);
 
     display.drawLine(0, 29, 127, 29, SSD1306_WHITE);
 
     display.setTextSize(2);
-    display.setCursor(0, 40);
+    display.setCursor(4, 40);
     display.print("-12V:");
 
     display.setTextSize(1);
     String strVoltageN = String(voltageN, 2) + " V";
-    drawRightString(strVoltageN, 114,  38);
+    drawRightString(strVoltageN, 118,  38);
     String strCurrentN = String(currentN, 1) + "  mA";
-    drawRightString(strCurrentN, 120,  49);
+    drawRightString(strCurrentN, 124,  49);
 
     display.display();
 }

@@ -18,6 +18,8 @@
 
 #include "splash.h"
 
+#include "Configuration.h"
+
 INA219 inaP;
 INA219 inaN;
 
@@ -51,7 +53,7 @@ void setupDisplay() {
     drawLogo();
     display.display();
 
-    delay(2000);
+    delay(SPLASH_DURATION);
 
     display.clearDisplay();
     display.display();
@@ -106,16 +108,12 @@ void loop() {
     processMeasure();
     processDisplay();
 
-    delay(500);
+    delay(SAMPLE_RATE);
 }
 
 void drawLogo(void) {
-    display.clearDisplay();
-
     display.drawBitmap((display.width() - LOGO_WIDTH) / 2, (display.height() - LOGO_HEIGHT) / 2, logo_bmp, LOGO_WIDTH,
                        LOGO_HEIGHT, 1);
-    display.display();
-    delay(1000);
 }
 
 void drawRightString(String buf, int x, int y) {

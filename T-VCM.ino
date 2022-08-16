@@ -20,6 +20,8 @@
 
 #include "Configuration.h"
 
+#define PIN_12V A0
+
 INA219 inaP;
 INA219 inaN;
 
@@ -30,12 +32,14 @@ float voltageN = 0;
 float currentP = 0;
 float currentN = 0;
 
+
+
 void setupIna219() {
     inaP.begin(0x40);
     inaN.begin(0x44);
 
-    inaP.configure(INA219_RANGE_16V, INA219_GAIN_80MV, INA219_BUS_RES_12BIT, INA219_SHUNT_RES_12BIT_16S);
-    inaN.configure(INA219_RANGE_16V, INA219_GAIN_80MV, INA219_BUS_RES_12BIT, INA219_SHUNT_RES_12BIT_16S);
+    inaP.configure(INA219_RANGE_32V, INA219_GAIN_80MV, INA219_BUS_RES_12BIT, INA219_SHUNT_RES_12BIT_16S);
+    inaN.configure(INA219_RANGE_32V, INA219_GAIN_80MV, INA219_BUS_RES_12BIT, INA219_SHUNT_RES_12BIT_16S);
 
     // Calibrate INA219. Rshunt = 0.1 ohm, Max excepted current = 800 mA
     inaP.calibrate(0.1, 0.8);
@@ -67,11 +71,12 @@ void setup() {
 }
 
 void processMeasure() {
-    voltageP = inaP.readBusVoltage();
-    currentP = abs(inaP.readShuntCurrent() * 1000);
+    voltageP = abs(inaP.readBusVoltage());
+    voltageN = -analogRead(PIN_12V) * 0.0049 * MULTI_VOLT_N;
+    voltageP = (voltageP + voltageN) * MULTI_VOLT_P;
 
-    voltageN = inaN.readBusVoltage();
-    currentN = abs(inaN.readShuntCurrent() * 1000);
+    currentP = abs(inaP.readShuntCurrent() * 1000) * MULTI_CURR_P;
+    currentN = abs(inaN.readShuntCurrent() * 1000) * MULTI_CURR_N;
 }
 
 void processDisplay() {

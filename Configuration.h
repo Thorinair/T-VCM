@@ -11,5 +11,7 @@
 /* Calibration multipliers for voltages and currents on positive and negative rails. */
 #define MULTI_VOLT_P 1
 #define MULTI_VOLT_N 3.117859
-#define MULTI_CURR_P 1.010363
+#define MULTI_CURR_P 1.015598
 #define MULTI_CURR_N 1.032086
+#define OFFS_CURR_P -0.3
+#define OFFS_CURR_N -0.15

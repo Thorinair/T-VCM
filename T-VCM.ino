@@ -75,8 +75,8 @@ void processMeasure() {
     voltageN = -analogRead(PIN_12V) * 0.0049 * MULTI_VOLT_N;
     voltageP = (voltageP + voltageN) * MULTI_VOLT_P;
 
-    currentP = abs(inaP.readShuntCurrent() * 1000) * MULTI_CURR_P;
-    currentN = abs(inaN.readShuntCurrent() * 1000) * MULTI_CURR_N;
+    currentP = abs(inaP.readShuntCurrent() * 1000) * MULTI_CURR_P + OFFS_CURR_P;
+    currentN = abs(inaN.readShuntCurrent() * 1000) * MULTI_CURR_N + OFFS_CURR_N;
 }
 
 void processDisplay() {
